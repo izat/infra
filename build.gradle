@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.0.2.RELEASE' apply false
+    id 'io.spring.dependency-management' version '1.0.5.RELEASE' apply false
+}
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+
+ext { springBootVersion = '2.0.2.RELEASE' }
+
+group = 'vc.cya.summerwind'
+version = '0.4.3'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-implicit:class' //<< '-Xlint:unchecked' << '-Xlint:deprecation'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2'
+    compile 'com.google.guava:guava:25.1-jre'
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'org.apache.httpcomponents:httpcore:4.4.9'
+    compile 'org.apache.httpcomponents:httpclient:4.5.5'
+    compile 'org.apache.httpcomponents:fluent-hc:4.5.5'
+
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-data-redis'
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.session:spring-session-data-redis'
+
+    compile 'org.apache.poi:poi:4.0.0'
+    compile 'org.apache.poi:poi-excelant:4.0.0'
+
+    testCompile 'junit:junit'
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
